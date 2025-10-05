@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.1
+
+### Patch Changes
+
+- 2fe6a0b: add repo
+
 ## 0.3.0
 
 ### Minor Changes
