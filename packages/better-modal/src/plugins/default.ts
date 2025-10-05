@@ -1,5 +1,4 @@
 import type { Type } from "free-types";
-import type { Simplify } from "type-fest";
 import {
     type AnyComponent,
     type AnyModalDefinition,

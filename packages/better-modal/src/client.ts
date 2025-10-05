@@ -87,7 +87,7 @@ export function createBetterModalClient<Registry extends AnyRegistry,>(store: Mo
 
 export type ModalClient<
     T extends AnyRegistry,
-> = ModalClientBuilder<T["_def"]["record"], T["_def"]["plugins"]>
+> = ModalClientBuilder<T["_def"]["record"], T["_def"]["plugins"]> & apply<ExtractClientPlugins<T["_def"]["plugins"]>, [T]>;
 
 type ModalClientBuilder<T extends AnyRegistry["_def"]["record"], Plugins extends readonly AnyPlugin[], Path extends string = ""> = {
     [K in keyof T]: T[K] extends AnyBaseModalDefinition
@@ -98,7 +98,7 @@ type ModalClientBuilder<T extends AnyRegistry["_def"]["record"], Plugins extends
     : T[K] extends ModalDefinitionStructure
     ? ModalClientBuilder<T[K], Plugins, Path extends "" ? K & string : `${Path}.${K & string}`>
     : unknown;
-} & apply<ExtractClientPlugins<Plugins>, [T]>;
+}
 
 
 export type AnyModalClient = ModalClient<any>;
