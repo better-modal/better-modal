@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.0
+
+### Minor Changes
+
+- f75ec87: release
+
 ## 0.2.2
 
 ### Patch Changes
