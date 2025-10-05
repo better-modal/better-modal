@@ -1,5 +1,0 @@
----
-"better-modal": patch
----
-
-bugfix
