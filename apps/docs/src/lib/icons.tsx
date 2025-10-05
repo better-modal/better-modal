@@ -7,6 +7,7 @@ export const Icons = {
         height="199"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid"
+        className="size-4"
       >
         <title>Discord</title>
         <path
@@ -24,6 +25,7 @@ export const Icons = {
         viewBox="0 0 1024 1024"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="size-4"
       >
         <title>GitHub</title>
         <path
@@ -43,6 +45,7 @@ export const Icons = {
         xmlns="http://www.w3.org/2000/svg"
         width="2500"
         height="2500"
+        className="size-4"
       >
         <title>NPM</title>
         <path fill="currentColor" d="M0 0h2500v2500H0z" />

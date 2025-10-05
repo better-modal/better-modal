@@ -16,19 +16,13 @@ export function baseOptions(): BaseLayoutProps {
     },
     links: [
       {
-        text: "Discord",
-        icon: <Icons.Discord />,
+        text: (
+          <div className="flex items-center gap-2">
+            <Icons.Discord />
+            <p>Discord</p>
+          </div>
+        ),
         url: "https://discord.gg/dfvQGkpP",
-      },
-      {
-        text: "GitHub",
-        icon: <Icons.GitHub />,
-        url: github,
-      },
-      {
-        text: "NPM",
-        icon: <Icons.NPM />,
-        url: "https://www.npmjs.com/package/better-modal",
       },
     ],
     // see https://fumadocs.dev/docs/ui/navigation/links
