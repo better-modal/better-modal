@@ -39,8 +39,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.1.13)(react@19.1.1)
       better-modal:
-        specifier: 0.3.2
-        version: 0.3.2(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
+        specifier: 0.3.3
+        version: 0.3.3(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1834,8 +1834,8 @@ packages:
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
 
-  better-modal@0.3.2:
-    resolution: {integrity: sha512-O6THkCfE7ZELhr9ZMdW0Tb+jZ6RBeh9NxFV7Dxc/Mr8pJbCp2I9mRAWc5fk98hqVST2ZRoIku6e7UtQtO77Oog==}
+  better-modal@0.3.3:
+    resolution: {integrity: sha512-EAtt3/IUoTvVvh27o1vPxefim+UBmlDIyJ4I1FHLTqEx+TpJO7LXzljgnQjDr1ovhI1m0V4nTXiaPzabtTRgwA==}
     peerDependencies:
       '@types/react': '>=19'
       react: '>=19'
@@ -5105,7 +5105,7 @@ snapshots:
 
   bail@2.0.2: {}
 
-  better-modal@0.3.2(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2):
+  better-modal@0.3.3(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2):
     dependencies:
       '@types/react': 19.1.13
       react: 19.1.1
