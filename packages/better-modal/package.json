@@ -1,6 +1,14 @@
 {
     "name": "better-modal",
+    "description": "A type-safe modal manager for React.",
     "version": "0.3.0",
+    "license": "MIT",
+    "author": "jln13x",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/better-modal/better-modal.git",
+        "directory": "packages/better-modal"
+    },
     "scripts": {
         "build": "tsdown",
         "dev": "tsdown --watch",
