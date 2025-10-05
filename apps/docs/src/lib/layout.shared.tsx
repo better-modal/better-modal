@@ -16,6 +16,10 @@ export function baseOptions(): BaseLayoutProps {
     },
     links: [
       {
+        text: "Variants",
+        url: "/docs/variants#examples",
+      },
+      {
         text: (
           <div className="flex items-center gap-2">
             <Icons.Discord />
