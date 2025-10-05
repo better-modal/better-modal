@@ -11,3 +11,7 @@ pnpm install better-modal
 ```
 
 Read the [Installation Guide](https://better-modal.com/docs/getting-started) to learn more.
+
+## Examples
+
+Check out the [examples](./apps/example/src/app) directory for working examples.
