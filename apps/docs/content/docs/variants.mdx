@@ -1,0 +1,95 @@
+---
+title: Variants
+description: Learn how to build and customize modal variants
+---
+
+# Variants
+
+Variants are the shells that render your modal content.
+
+## Key ideas
+
+- Variants are just components: they receive your modal props and children, and they render whatever UI you want.
+- You can fully customize the layout, transitions, and interaction model for each variant.
+- Helper hooks such as `useModal` and `useModalStore` give you access to the active modal's metadata and lifecycle helpers inside the variant body.
+- Any component library works for variants—compose it with Better Modal's hooks to control open/close state.
+
+## Hooks
+
+- `useModal()` returns the active modal instance
+- `useModalStore()` exposes helpers like `dismiss` and `remove` to orchestrate closing and cleanup.
+
+```ts
+const modal = useModal();
+const store = useModalStore();
+
+store.dismiss(modal.id); // Close the modal
+store.remove(modal.id); // Remove once your exit animation completes
+```
+
+## Examples
+
+### Shadcn Dialog
+
+```tsx
+"use client";
+
+import { useModal, useModalStore } from "better-modal/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+export function ShadcnDialog({
+  children,
+  title,
+  description,
+}: { children: React.ReactNode } & Props) {
+  const modal = useModal();
+  const store = useModalStore();
+
+  return (
+    <Dialog
+      open={modal.open}
+      onOpenChange={(v) => !v && store.dismiss(modal.id)}
+    >
+      <DialogContent
+        onAnimationEnd={() => {
+          if (!modal.open) store.remove(modal.id);
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        {children}
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## Registering variants
+
+Once you have a variant component, register it when creating your modal collection:
+
+```ts
+import { betterModal } from "better-modal";
+import { ShadcnDialog } from "@/modals/variants/shadcn-dialog";
+
+const m = betterModal({
+  variants: {
+    dialog: ShadcnDialog,
+  },
+});
+```
+
+Every modal you create can target any registered variant, letting you reuse variant shells across different pieces of modal content.

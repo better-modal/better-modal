@@ -1,0 +1,73 @@
+---
+title: Lazy Loading
+description: Learn how to lazy load modal components for better performance
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+# Lazy Loading
+
+Better Modal provides support for lazy loading modal components to improve performance by loading components only when needed.
+
+## Basic Usage
+
+### Import
+
+Import the `lazy` function from `better-modal/react`:
+
+```tsx
+import { lazy } from "better-modal/react";
+```
+
+### Creating a Lazy Modal
+
+Use the `lazy()` function to wrap your dynamic import:
+
+```tsx
+import { betterModal } from "better-modal";
+import { lazy } from "better-modal/react";
+
+const m = betterModal({
+  variants: {
+    dialog: MyDialogVariant,
+  },
+});
+
+const lazyModal = m.modal(
+  lazy(() => import("./components/HeavyModal").then((m) => m.HeavyModal)),
+  "dialog"
+);
+
+export const modals = m.registry({
+  heavy: lazyModal,
+});
+```
+
+You can provide a fallback component that displays while the lazy component loads.
+
+```tsx
+const LazyComponent = lazy(
+  () => import("./HeavyModal").then((m) => m.HeavyModal),
+  {
+    fallback: () => <div>Loading modal...</div>,
+  }
+);
+```
+
+### Opening Lazy Modals
+
+Lazy modals work exactly like regular modals:
+
+```tsx
+// This will automatically load the component when opened
+modals.heavy.open();
+```
+
+## Preloading
+
+We recommend using the [preload plugin](/docs/plugins/preload) to preload lazy components.
+
+The fallback is shown during:
+
+- Initial loading when the modal is opened
+- Only if the component hasn't been preloaded

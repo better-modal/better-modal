@@ -1,0 +1,149 @@
+---
+title: Getting Started
+---
+
+## Setup
+
+Create a file that initializes Better Modal and exports the type-safe helper functions to create modals and registries.
+
+### Import
+
+Import the `betterModal` function from `better-modal`.
+
+```ts
+// modals/init.ts
+import { betterModal } from "better-modal";
+```
+
+### Define your variants
+
+```ts
+import { ShadcnDialog } from "@/components/shadcn-dialog";
+
+const m = betterModal({
+  variants: {
+    dialog: ShadcnDialog,
+  },
+});
+```
+
+You can read more about variants in the [variants](/docs/variants) section.
+
+### Export the helper functions
+
+Feel free to name them however you want.
+
+```ts
+export const modal = m.modal;
+export const registry = m.registry;
+```
+
+## Define your modals
+
+<Callout type="warning">
+  Don't define your modals or registries within the same file as the
+  initialization to prevent circular dependencies.
+</Callout>
+
+### Create a modal
+
+Use the `modal` function to create a modal by simply passing a component and selecting a variant.
+
+```ts
+// modals/registry.ts
+import { modal } from "./init";
+
+const invoiceModal = modal(AddInvoiceForm, "dialog");
+```
+
+Add default values to your modal by using the `withDefaults` function, so you no longer have to provide them when e.g. opening the modal.
+
+```ts
+import { AddInvoiceForm } from "@/components/AddInvoiceForm";
+
+const addInvoiceModal = m.modal(AddInvoiceForm, "dialog").withDefaults({
+  variant: {
+    title: "Add Invoice",
+    description: "Add a new invoice",
+  },
+});
+```
+
+<Callout type="warning">
+  Importing all components in one file might impact your bundle size. We
+  recommend using the `lazy` function to load your components dynamically. You
+  can read more about it in the [lazy loading](/docs/lazy-loading) section.
+</Callout>
+
+### Create your registry
+
+Combine all your modals into a single registry.
+
+```ts
+import { registry } from "./init";
+
+export const modals = registry({
+  invoice: addInvoiceModal,
+});
+```
+
+Nest your modals to group related domains together.
+
+```ts
+export const modals = registry({
+  invoice: {
+    add: addInvoiceModal,
+  },
+});
+```
+
+## Usage
+
+### Create Provider & Hooks
+
+Create a file that creates a provider and a hook to manage your modals.
+
+```ts
+// modals/react
+"use client";
+
+import { createBetterModalReact } from "better-modal/react";
+import { modals } from "./registry";
+
+export const { useBetterModal, BetterModalProvider } =
+  createBetterModalReact(modals);
+```
+
+### Mount the provider
+
+Mount the provider at the root of your app. (e.g. Next.js Root Layout)
+
+```tsx
+// app/layout.tsx
+import { BetterModalProvider } from "@/modals/react";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html>
+      <body>
+        <BetterModalProvider>{children}</BetterModalProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### Use the hook
+
+```tsx
+"use client";
+
+export function MyButton() {
+  const bm = useBetterModal();
+  return <button onClick={() => bm.invoice.add.open()}>Open Modal</button>;
+}
+```

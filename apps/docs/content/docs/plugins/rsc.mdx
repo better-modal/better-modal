@@ -1,0 +1,151 @@
+---
+title: RSC
+---
+
+Better Modal supports React Server Components, allowing you to render modal content on the server.
+
+## Setup
+
+### 1. Init
+
+```ts
+// modals/rsc/init.ts
+import { createBetterModalRSC } from "better-modal/rsc";
+import { modals } from "../modals";
+
+export const { createRSCPlugin, createAction } = createBetterModalRSC(modals);
+```
+
+### 2. Create Server Action
+
+Create a new file that exports the the action. Make sure to include the `"use server"` directive at the top of the file.
+
+```ts
+// modals/rsc/action.ts
+"use server";
+
+import { createAction } from "@/modals/rsc/init";
+
+export const rscAction = createAction();
+```
+
+### 3. Create Plugin
+
+Create a client-side module that connects the server action:
+
+```ts
+// modals/rsc/plugin.ts
+import { createRSCPlugin } from "@/modals/rsc/init";
+import { rscAction } from "./action";
+
+export const rscPlugin = createRSCPlugin(rscAction);
+```
+
+### 4. Add Plugin to Better Modal
+
+```ts
+// modals/init.ts
+import { betterModal } from "better-modal";
+import { rscPlugin } from "./rsc/plugin";
+
+const m = betterModal({
+  // ...
+  plugins: [rscPlugin],
+});
+```
+
+## Usage
+
+Use the `openAsync` method to open the modal.
+
+```tsx
+await modals.invoice.add.openAsync();
+```
+
+## Example
+
+**Simple**
+
+```tsx
+"use client";
+
+import { useBetterModal } from "@/modals/react";
+
+export default function Page() {
+  const bm = useBetterModal();
+
+  return (
+    <button
+      onClick={() => {
+        bm.invoice.add.openAsync();
+      }}
+    >
+      Open Modal
+    </button>
+  );
+}
+```
+
+**With Loading**
+
+```tsx
+import { useBetterModal } from "@/modals/react";
+
+export default function Page() {
+  const bm = useBetterModal();
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <button
+      onClick={() => {
+        startTransition(async () => {
+          await bm.invoice.add.openAsync();
+        });
+      }}
+    >
+      Open Modal {isPending && <span>Loading...</span>}
+    </button>
+  );
+}
+```
+
+## Common Errors
+
+### React Client Manifest Error
+
+If you encounter an error like:
+
+```
+Could not find the module "..." in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+```
+
+This happens when React Server Components can't properly resolve client components used in your modals. To fix this, destructure and mount the `FixReactClientManifest` component from `createBetterModalRSC`:
+
+```ts
+export const { FixReactClientManifest, ... } = createBetterModalRSC(modals);
+```
+
+Then mount it anywhere in your app:
+
+```tsx
+// src/app/layout.tsx or any other component
+import { FixReactClientManifest } from "@/modals/rsc/init";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <FixReactClientManifest />
+      </body>
+    </html>
+  );
+}
+```
+
+The `Bundle` component ensures all modal dependencies are properly registered with the React Client Manifest.
+
+<Callout type="warning">
+  Using the `FixReactClientManifest` component will opt out of [lazy
+  loading](/docs/lazy-loading).
+</Callout>

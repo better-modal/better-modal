@@ -1,0 +1,47 @@
+---
+title: Preload
+description: Learn how to use the preload plugin to improve performance
+---
+
+<Callout type="info">
+  The preload plugin only works for lazy components. Make sure to use [lazy
+  loading](/docs/lazy-loading) to use this plugin.
+</Callout>
+
+## Setup
+
+Import the plugin and add it to the plugins.
+
+```ts
+import { preloadPlugin } from "better-modal/plugins";
+
+const m = betterModal({
+  // ...
+  plugins: [preloadPlugin],
+});
+```
+
+## Usage
+
+Use the `preload` method to preload the modal component.
+
+```tsx
+// Preload the component
+await modals.invoice.add.preload();
+
+// Now opening the modal will be instant
+modals.invoice.add.open();
+```
+
+## Strategies
+
+### On User Interaction
+
+```tsx
+<button
+  onMouseEnter={() => modals.invoice.add.preload()}
+  onClick={() => modals.invoice.add.open()}
+>
+  Open Modal
+</button>
+```
