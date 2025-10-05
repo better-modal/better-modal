@@ -10,7 +10,7 @@ import {
   type Variants,
 } from "./def";
 import type { AnyPlugin } from "./plugin";
-import { defaultPlugin } from "./plugins";
+import { defaultPlugin } from "./plugins/default";
 import type { Prettify } from "./types";
 
 type ModalOptions<

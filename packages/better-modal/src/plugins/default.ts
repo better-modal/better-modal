@@ -61,7 +61,7 @@ export interface ClientDecorator extends Type<1> {
     type: this[0] extends AnyRegistry ? ClientMethods<this[0]> : unknown;
 }
 
-const plugin = createPlugin<
+export const defaultPlugin = createPlugin<
     ModalDecorator,
     ModalMethods,
     ClientDecorator,
@@ -108,8 +108,6 @@ const plugin = createPlugin<
         },
     },
 });
-
-export const defaultPlugin = plugin;
 
 function openFn(
     modal: AnyModalDefinition,

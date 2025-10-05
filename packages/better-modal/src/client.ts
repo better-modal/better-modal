@@ -8,7 +8,7 @@ import {
     toModalDefinition
 } from "./def";
 import type { AnyPlugin, ExtractClientPlugins, ExtractPlugins } from "./plugin";
-import { defaultPlugin } from "./plugins";
+import { defaultPlugin } from "./plugins/default";
 import type { ModalStore } from "./store";
 import { createRecursiveProxy, err, getByPath } from "./utils";
 
