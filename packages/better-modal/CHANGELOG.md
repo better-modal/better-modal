@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.3
+
+### Patch Changes
+
+- c578e55: bugfix
+
 ## 0.3.2
 
 ### Patch Changes
