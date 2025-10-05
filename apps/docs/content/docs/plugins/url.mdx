@@ -1,0 +1,199 @@
+---
+title: URL
+description: Learn how to use the URL plugin to sync modal state with the URL
+---
+
+Better Modal supports syncing modal state with the URL, allowing you to share modal state across tabs, persist state on refresh, and create shareable links.
+
+## Setup
+
+### 1. Create URL Sync
+
+```ts
+// modals/url/init.ts
+import { createBetterModalUrlSync } from "better-modal/url";
+
+export const { urlSyncPlugin, BetterModalUrlSyncer } =
+  createBetterModalUrlSync();
+```
+
+### 2. Add Plugin
+
+```ts
+// modals/init.ts
+import { betterModal } from "better-modal";
+import { urlSyncPlugin } from "./url/init";
+
+const m = betterModal({
+  // ...
+  plugins: [urlSyncPlugin],
+});
+```
+
+Adding the plugin will allow you to use the `.sync()` method on your modals.
+
+## Usage
+
+### 1. Mount the syncer
+
+Import and mount the `BetterModalUrlSyncer` component. Pass in the settings for the modals you want to sync.
+
+```tsx
+"use client";
+
+import { BetterModalUrlSyncer } from "./modals/url/init";
+import { useBetterModal } from "./modals/react"
+
+export default function Page(){
+    const bm = useBetterModal();
+
+
+return (
+    <div>
+    {/* Your page content */}
+    <BetterModalUrlSyncer 
+        settings={[
+            bm.invoice.add.sync({/* adapter-specific options*/})
+        ]}
+    />
+    </div>
+)
+
+}
+```
+
+Opening any defined modal will now sync its state to the URL automatically.
+
+### 2. Open a modal
+
+You can just use the `open` method as you would normally.
+
+```tsx
+const bm = useBetterModal();
+
+bm.invoice.add.open({
+    name: "Invoice 1",
+    description: "Invoice 1 description",
+});
+```
+
+
+
+
+
+## Adapters
+
+### Nuqs Adapter (Recommended)
+
+Use [nuqs](https://nuqs.47ng.com/) for type-safe URL state management:
+
+```npm
+npm install nuqs
+```
+
+```ts
+import { createBetterModalUrlSync } from "better-modal/url";
+import { createBetterModalsNuqsAdapter } from "better-modal/url/adapters";
+
+const nuqsAdapter = createBetterModalsNuqsAdapter()
+
+export const { urlSyncPlugin, BetterModalUrlSyncer } = createBetterModalUrlSync(
+  {
+    adapter: nuqsAdapter
+  }
+);
+```
+
+With nuqs, you must provide a parser for each modal:
+
+```ts
+bm.user.edit.sync({
+    parser: ... // nuqs parser
+})
+```
+
+#### Example
+
+- We registered a modal with our custom variant `dialog` for editing an invoice. 
+- The variant expects an `title` and a `description`. We defined default values for these. 
+- The component `EditInvoiceForm`  expects an `id` to be passed in. 
+
+```ts
+const modals = registry({
+    invoice: {
+        edit: modal(EditInvoiceForm, "dialog").withDefaultValues({
+            title: "Edit Invoice",
+            description: "Changes to the invoice will be automatically saved.",
+        })
+    }
+})
+```
+
+
+**Define a schema for the invoice and a parser for it**
+
+```ts
+import { z } from "zod";
+
+const editInvoiceSchema = z.object({
+    id: z.string(),
+})
+
+const editInvoiceParser = parseAsJson(editInvoiceSchema)
+```
+
+**Use the parser in the sync method**
+
+```tsx
+// ... 
+
+const bm = useBetterModal();
+
+const syncEditInvoice = bm.invoice.edit.sync({
+    parser: editInvoiceParser
+})
+
+return (
+    // ...
+    <BetterModalUrlSyncer 
+        settings={[syncEditInvoice]}
+    />
+)
+```
+
+**Open the modal**
+
+```ts
+const bm = useBetterModal();
+
+bm.invoice.edit.open({
+    id: "123"
+})
+```
+
+**The URL will now be updated with the state of the modal**
+
+Result: `https://your-app.com/invoices?invoice.edit=id=123`
+
+<Callout type="info">
+    Default values are automatically omitted from the URL.
+</Callout>
+
+
+### Default Adapter 
+
+The default adapter uses native URL search params with `JSON.stringify`:
+
+```ts
+import { createBetterModalUrlSync } from "better-modal/url";
+
+export const { urlSyncPlugin, BetterModalUrlSyncer } =
+  createBetterModalUrlSync();
+```
+
+## Limitations
+
+<Callout type="warning">
+  Server components are not support yet.
+</Callout>
+
