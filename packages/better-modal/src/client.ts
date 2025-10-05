@@ -67,7 +67,7 @@ export function createBetterModalClient<Registry extends AnyRegistry,>(store: Mo
         const id = path.join(".");
 
         const _modal =
-            (getByPath(id, registry) as unknown as AnyBaseModalDefinition) ??
+            (getByPath(id, registry._def.record) as unknown as AnyBaseModalDefinition) ??
             err(`Modal ${path.join(".")} not found`);
 
         const modal = toModalDefinition(_modal, id);
