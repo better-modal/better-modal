@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { Logo } from "@/components/logo";
 
 /**
  * Shared layout configurations
@@ -10,9 +11,9 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: "better-modal",
+      title: <Logo />,
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
+    githubUrl: "https://github.com/better-modal/better-modal",
   };
 }
