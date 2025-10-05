@@ -9,8 +9,7 @@ Better Modal supports syncing modal state with the URL, allowing you to share mo
 
 ### 1. Create URL Sync
 
-```ts
-// modals/url/init.ts
+```ts title="modals/url/init.ts"
 import { createBetterModalUrlSync } from "better-modal/url";
 
 export const { urlSyncPlugin, BetterModalUrlSyncer } =
@@ -19,8 +18,7 @@ export const { urlSyncPlugin, BetterModalUrlSyncer } =
 
 ### 2. Add Plugin
 
-```ts
-// modals/init.ts
+```ts title="modals/init.ts"
 import { betterModal } from "better-modal";
 import { urlSyncPlugin } from "./url/init";
 

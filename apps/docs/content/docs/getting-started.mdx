@@ -16,8 +16,7 @@ Create a file that initializes Better Modal and exports the type-safe helper fun
 
 Import the `betterModal` function from `better-modal`.
 
-```ts
-// modals/init.ts
+```ts title="modals/init.ts"
 import { betterModal } from "better-modal";
 ```
 
@@ -55,8 +54,7 @@ export const registry = m.registry;
 
 Use the `modal` function to create a modal by simply passing a component and selecting a variant.
 
-```ts
-// modals/registry.ts
+```ts title="modals/registry.ts"
 import { modal } from "./init";
 
 const invoiceModal = modal(AddInvoiceForm, "dialog");
@@ -109,8 +107,7 @@ export const modals = registry({
 
 Create a file that creates a provider and a hook to manage your modals.
 
-```ts
-// modals/react
+```ts title="modals/react.ts"
 "use client";
 
 import { createBetterModalReact } from "better-modal/react";
@@ -124,8 +121,7 @@ export const { useBetterModal, BetterModalProvider } =
 
 Mount the provider at the root of your app. (e.g. Next.js Root Layout)
 
-```tsx
-// app/layout.tsx
+```tsx title="app/layout.tsx"
 import { BetterModalProvider } from "@/modals/react";
 
 export default function RootLayout({
