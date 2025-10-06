@@ -1,5 +1,11 @@
 # @better-modal/nuqs
 
+## 0.0.5
+
+### Patch Changes
+
+- 06cca12: release
+
 ## 0.0.4
 
 ### Patch Changes
