@@ -204,8 +204,8 @@ importers:
   packages/nuqs-adapter:
     dependencies:
       better-modal:
-        specifier: ^0.3.3
-        version: 0.3.3(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
+        specifier: ^0.3.4
+        version: 0.3.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       nuqs:
         specifier: ^2.6.0
         version: 2.6.0(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
@@ -1860,6 +1860,12 @@ packages:
       react: '>=19'
       react-dom: '>=19'
       typescript: '>=5.7'
+
+  better-modal@0.3.4:
+    resolution: {integrity: sha512-RqkPJxGzWbDx/SdgjhIX2CY0LDHXGK24Do08exyJA189ZlL2Atg7OileYZsw4R97Ap6gh9/tKEzsRYwysJPaWA==}
+    peerDependencies:
+      react: '>=19'
+      react-dom: '>=19'
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -5131,12 +5137,10 @@ snapshots:
       react-dom: 19.1.1(react@19.1.1)
       typescript: 5.9.2
 
-  better-modal@0.3.3(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2):
+  better-modal@0.3.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
-      '@types/react': 19.1.16
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
-      typescript: 5.9.2
 
   better-path-resolve@1.0.0:
     dependencies:

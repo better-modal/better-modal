@@ -9,7 +9,7 @@
         "lint": "tsc --noEmit"
     },
     "peerDependencies": {
-        "better-modal": "^0.3.3",
+        "better-modal": "^0.3.4",
         "nuqs": "^2.6.0"
     },
     "devDependencies": {
