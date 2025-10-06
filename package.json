@@ -7,17 +7,17 @@
     },
     "packageManager": "pnpm@10.4.1",
     "scripts": {
-        "dev": "pnpm --filter next dev",
         "version": "changeset version",
         "cs": "changeset",
-        "release": "pnpm --filter better-modal build && changeset publish",
-        "lint": "pnpm --filter better-modal lint",
-        "build": "pnpm --filter better-modal build"
+        "release": "pnpm build && changeset publish",
+        "lint": "turbo run lint --filter=\"better-modal\" --filter=\"@better-modal*\"",
+        "build": "turbo run build --filter=\"better-modal\" --filter=\"@better-modal*\""
     },
     "devDependencies": {
-        "size-limit": "^11.2.0",
         "@biomejs/biome": "2.2.0",
-        "@changesets/cli": "^2.27.9"
+        "@changesets/cli": "^2.27.9",
+        "size-limit": "^11.2.0",
+        "turbo": "^2.5.8"
     },
     "overrides": {
         "better-modal": "workspace:*"
