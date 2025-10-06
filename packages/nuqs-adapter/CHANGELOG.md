@@ -1,5 +1,11 @@
 # @better-modal/nuqs
 
+## 0.0.4
+
+### Patch Changes
+
+- e9812f0: description
+
 ## 0.0.3
 
 ### Patch Changes
