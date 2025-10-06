@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.4
+
+### Patch Changes
+
+- 19066be: url
+
 ## 0.3.3
 
 ### Patch Changes
