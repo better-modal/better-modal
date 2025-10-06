@@ -1,3 +1,3 @@
 # @better-modal/nuqs
 
-URL-Adapter for `better-modal`
+URL adapter for better-modal

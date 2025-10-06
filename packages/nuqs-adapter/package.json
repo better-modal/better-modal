@@ -1,5 +1,6 @@
 {
     "name": "@better-modal/nuqs",
+    "description": "URL adapter for better-modal",
     "version": "0.0.2",
     "license": "MIT",
     "author": "jln13x",

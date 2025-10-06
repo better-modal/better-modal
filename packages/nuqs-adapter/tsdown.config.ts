@@ -3,9 +3,6 @@ import { defineConfig } from 'tsdown';
 
 export const input = [
     'src/index.ts',
-    // 'src/url/adapters/index.ts',
-    // 'src/rsc/index.ts',
-    // 'src/devtools/index.ts',
 ];
 
 export default defineConfig({
