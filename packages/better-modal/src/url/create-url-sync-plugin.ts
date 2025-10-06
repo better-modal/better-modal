@@ -2,7 +2,6 @@ import type { Type } from "free-types";
 import type { AnyModalDefinition } from "../def";
 import { createPlugin } from "../plugin";
 import type { AnyAdapter } from "./adapter";
-import type { NuqsAdapter } from "./adapters";
 
 export type UrlSyncableModal<
     Def extends AnyModalDefinition,
@@ -42,7 +41,7 @@ export function createUrlSyncPlugin<Adapter extends AnyAdapter>(
     _adapter: Adapter,
 ) {
     const plugin = createPlugin<
-        UrlSyncPluginDecorator<NuqsAdapter>,
+        UrlSyncPluginDecorator<Adapter>,
         Methods
     >({
         modal: {

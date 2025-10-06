@@ -1,9 +1,5 @@
-import {
-    type Parser,
-    type UseQueryStateOptions,
-    useQueryStates
-} from "nuqs";
-import { createAdapter } from "../adapter";
+import { createAdapter } from "better-modal/url";
+import { type Parser, type UseQueryStateOptions, useQueryStates } from "nuqs";
 
 type GlobalOptions = Pick<UseQueryStateOptions<any>, "history">;
 
@@ -13,7 +9,6 @@ type ModalOptions = {
 
 export function createBetterModalsNuqsAdapter(options?: GlobalOptions) {
     return createAdapter<ModalOptions>((modals) => {
-
         const keyMap = Object.fromEntries(
             modals.map(({ modal, options }) => [modal.id, options.parser]),
         );
@@ -33,11 +28,9 @@ export function createBetterModalsNuqsAdapter(options?: GlobalOptions) {
                 setState({
                     [key]: null,
                 });
-            }
+            },
         };
-    }
-    )
+    });
 }
-
 
 export type NuqsAdapter = ReturnType<typeof createBetterModalsNuqsAdapter>;

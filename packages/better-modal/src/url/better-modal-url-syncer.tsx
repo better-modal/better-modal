@@ -11,7 +11,7 @@ type Options = {
 };
 
 export function createBetterModalUrlSyncer(_adapter: Adapter) {
-  function Inner({ options }: { options: Options }) {
+  return function URLSyncer({ options }: { options: Options }) {
     const store = useModalStore();
     const adapter = _adapter.init(options.settings);
 
@@ -108,13 +108,5 @@ export function createBetterModalUrlSyncer(_adapter: Adapter) {
     }, []);
 
     return null;
-  }
-
-  return function UrlSyncer(options: Options) {
-    return (
-      // <NuqsAdapter>
-      <Inner options={options} />
-      // </NuqsAdapter>
-    );
   };
 }
