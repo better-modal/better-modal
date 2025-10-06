@@ -86,12 +86,12 @@ bm.invoice.add.open({
 Use [nuqs](https://nuqs.47ng.com/) for type-safe URL state management:
 
 ```npm
-npm install nuqs
+npm install nuqs @better-modal/nuqs
 ```
 
 ```ts
 import { createBetterModalUrlSync } from "better-modal/url";
-import { createBetterModalsNuqsAdapter } from "better-modal/url/adapters";
+import { createBetterModalsNuqsAdapter } from "@better-modal/nuqs";
 
 const nuqsAdapter = createBetterModalsNuqsAdapter()
 
@@ -101,6 +101,10 @@ export const { urlSyncPlugin, BetterModalUrlSyncer } = createBetterModalUrlSync(
   }
 );
 ```
+
+<Callout type="info">
+Make sure you have setup `nuqs` correctly. Check out their [docs](https://nuqs.dev/docs/adapters) for more information.
+</Callout>
 
 With nuqs, you must provide a parser for each modal:
 
