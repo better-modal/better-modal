@@ -41,7 +41,7 @@ export function createUrlSyncPlugin<Adapter extends AnyAdapter>(
     _adapter: Adapter,
 ) {
     const plugin = createPlugin<
-        UrlSyncPluginDecorator<Adapter>,
+        UrlSyncPluginDecorator<Adapter["_def"]["$types"]["options"]>,
         Methods
     >({
         modal: {
