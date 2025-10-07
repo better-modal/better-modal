@@ -6,19 +6,19 @@ import { omit } from "../utils";
 import type { Adapter } from "./adapter";
 import type { AnyUrlSyncableModal } from "./create-url-sync-plugin";
 
-type Options = {
-  settings: AnyUrlSyncableModal[];
+type Props = {
+  modals: AnyUrlSyncableModal[];
 };
 
 export function createBetterModalUrlSyncer(_adapter: Adapter) {
-  return function URLSyncer({ options }: { options: Options }) {
+  return function URLSyncer(options: Props) {
     const store = useModalStore();
-    const adapter = _adapter.init(options.settings);
+    const adapter = _adapter.init(options.modals);
 
     const modals = useMemo(
       () =>
-        options.settings
-          .map((setting) => setting.modal)
+        options.modals
+          .map((m) => m.modal)
           .filter((modal) => {
             const isAsync =
               modal._def.component.constructor.name === "AsyncFunction";
@@ -31,7 +31,7 @@ export function createBetterModalUrlSyncer(_adapter: Adapter) {
 
             return !isAsync;
           }),
-      [options.settings],
+      [options.modals],
     );
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: idc
