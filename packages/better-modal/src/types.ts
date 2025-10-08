@@ -1,3 +1,1 @@
-import type { Simplify } from "type-fest";
-
-export type Prettify<T> = Simplify<T>;
+export type Prettify<T> = { [KeyType in keyof T]: T[KeyType] } & {};

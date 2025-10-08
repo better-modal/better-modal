@@ -1,5 +1,5 @@
-import type { Type } from "free-types";
 import type { AnyModalDefinition, MissingProps } from "../def";
+import type * as HKT from "../hkt";
 import { createPlugin } from "../plugin";
 import type { Action } from "./action";
 
@@ -7,8 +7,10 @@ type Methods<Def extends AnyModalDefinition> = {
     openAsync: (props: MissingProps<Def>) => Promise<void>;
 };
 
-interface Plugin extends Type<1> {
-    type: this[0] extends AnyModalDefinition ? Methods<this[0]> : unknown;
+interface Plugin extends HKT.TypeLambda {
+    readonly type: this["Target"] extends AnyModalDefinition
+    ? Methods<this["Target"]>
+    : unknown;
 }
 
 export function createRSCPlugin(action: Action) {

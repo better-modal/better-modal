@@ -1,5 +1,5 @@
-import type { Type } from "free-types";
 import type { AnyModalDefinition } from "../def";
+import type * as HKT from "../hkt";
 import { isLazyComponent } from "../lazy";
 import { createPlugin } from "../plugin";
 
@@ -7,8 +7,8 @@ type Methods = {
     preload: () => Promise<void>;
 };
 
-interface MethodDecorator extends Type<1> {
-    type: this[0] extends AnyModalDefinition ? Methods : unknown;
+interface MethodDecorator extends HKT.TypeLambda {
+    readonly type: this["Target"] extends AnyModalDefinition ? Methods : unknown;
 }
 
 const plugin = createPlugin<MethodDecorator, Methods>({

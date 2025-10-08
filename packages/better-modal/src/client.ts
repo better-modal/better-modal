@@ -1,12 +1,12 @@
-import type { apply } from "free-types";
 import {
     type AnyBaseModalDefinition,
     type AnyModalDefinition,
     type AnyRegistry,
     type ModalDefinition,
     type ModalDefinitionStructure,
-    toModalDefinition
+    toModalDefinition,
 } from "./def";
+import type * as HKT from "./hkt";
 import type { AnyPlugin, ExtractClientPlugins, ExtractPlugins } from "./plugin";
 import { defaultPlugin } from "./plugins/default";
 import type { ModalStore } from "./store";
@@ -14,9 +14,12 @@ import { createRecursiveProxy, err, getByPath } from "./utils";
 
 const DEFAULT_PLUGINS = [defaultPlugin] as const;
 
-export function createBetterModalClient<Registry extends AnyRegistry,>(store: ModalStore, registry: Registry) {
+export function createBetterModalClient<Registry extends AnyRegistry>(
+    store: ModalStore,
+    registry: Registry,
+) {
     const plugins = registry._def.plugins;
-    const allPlugins = [...DEFAULT_PLUGINS, ...(plugins ?? [])]
+    const allPlugins = [...DEFAULT_PLUGINS, ...(plugins ?? [])];
 
     const modalMethodContext = allPlugins.reduce(
         // biome-ignore lint/performance/noAccumulatingSpread: idc
@@ -67,7 +70,10 @@ export function createBetterModalClient<Registry extends AnyRegistry,>(store: Mo
         const id = path.join(".");
 
         const _modal =
-            (getByPath(id, registry._def.record) as unknown as AnyBaseModalDefinition) ??
+            (getByPath(
+                id,
+                registry._def.record,
+            ) as unknown as AnyBaseModalDefinition) ??
             err(`Modal ${path.join(".")} not found`);
 
         const modal = toModalDefinition(_modal, id);
@@ -85,20 +91,42 @@ export function createBetterModalClient<Registry extends AnyRegistry,>(store: Mo
     return modalsProxy as ModalClient<Registry>;
 }
 
-export type ModalClient<
-    T extends AnyRegistry,
-> = ModalClientBuilder<T["_def"]["record"], T["_def"]["plugins"]> & apply<ExtractClientPlugins<T["_def"]["plugins"]>, [T]>;
+export type ModalClient<T extends AnyRegistry> = ModalClientBuilder<
+    T["_def"]["record"],
+    T["_def"]["plugins"]
+> &
+    ApplyClientDecorators<ExtractClientPlugins<T["_def"]["plugins"]>, T>;
 
-type ModalClientBuilder<T extends AnyRegistry["_def"]["record"], Plugins extends readonly AnyPlugin[], Path extends string = ""> = {
-    [K in keyof T]: T[K] extends AnyBaseModalDefinition
-    ? apply<
-        ExtractPlugins<Plugins>,
-        [ModalDefinition<T[K], Path extends "" ? K & string : `${Path}.${K & string}`>]
-    >
-    : T[K] extends ModalDefinitionStructure
-    ? ModalClientBuilder<T[K], Plugins, Path extends "" ? K & string : `${Path}.${K & string}`>
-    : unknown;
-}
-
+type ModalClientBuilder<
+    T extends AnyRegistry["_def"]["record"],
+    Plugins extends readonly AnyPlugin[],
+    Path extends string = "",
+> = {
+        [K in keyof T]: T[K] extends AnyBaseModalDefinition
+        ? ApplyModalDecorators<
+            ExtractPlugins<Plugins>,
+            ModalDefinition<
+                T[K],
+                Path extends "" ? K & string : `${Path}.${K & string}`
+            >
+        >
+        : T[K] extends ModalDefinitionStructure
+        ? ModalClientBuilder<
+            T[K],
+            Plugins,
+            Path extends "" ? K & string : `${Path}.${K & string}`
+        >
+        : unknown;
+    };
 
 export type AnyModalClient = ModalClient<any>;
+
+type ApplyModalDecorators<
+    Decorators extends HKT.TypeLambda,
+    Target,
+> = HKT.Kind<Decorators, never, never, never, Target>;
+
+type ApplyClientDecorators<
+    Decorators extends HKT.TypeLambda,
+    Target,
+> = HKT.Kind<Decorators, never, never, never, Target>;
