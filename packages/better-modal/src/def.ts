@@ -1,4 +1,4 @@
-import type { PartialDeep, Simplify } from "type-fest";
+import type { PartialDeep } from "type-fest";
 import type { AnyLazyComponent, ExtractPropsFromLazyComponent } from "./lazy";
 import type { AnyPlugin } from "./plugin";
 import type { Prettify } from "./types";
@@ -33,7 +33,7 @@ export type BaseModalDefinition<
     };
     withDefaults: <T extends DefaultValuesShape<Values>>(
         defaultValues: T,
-    ) => BaseModalDefinition<Values, Simplify<DefaultValues & T>>;
+    ) => BaseModalDefinition<Values, Prettify<DefaultValues & T>>;
 };
 
 export interface Registry<
@@ -126,9 +126,9 @@ export function createModalDefinition<
                     // @ts-expect-error
                     ...(newDefaults.component ?? {}),
                 },
-            } as Simplify<DefaultValues & T>;
+            } as Prettify<DefaultValues & T>;
 
-            return createModalDefinition<Values, Simplify<DefaultValues & T>>(
+            return createModalDefinition<Values, Prettify<DefaultValues & T>>(
                 component,
                 variant,
                 mergedDefaults,

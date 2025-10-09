@@ -1,8 +1,8 @@
-import type { apply, Type } from "free-types";
 import type { AnyModalDefinition, AnyRegistry } from "./def";
+import type * as HKT from "./hkt";
 import type { ModalStore } from "./store";
 
-export interface NoopDecorator extends Type<1> {
+export interface NoopDecorator extends HKT.TypeLambda {
     type: {};
 }
 
@@ -18,9 +18,9 @@ type PluginClientMethods<M extends Record<string, any>> = {
 };
 
 export type Plugin<
-    ModalDecorator extends Type = NoopDecorator,
+    ModalDecorator extends HKT.TypeLambda = NoopDecorator,
     ModalMethods extends Record<string, any> = {},
-    ClientDecorator extends Type = NoopDecorator,
+    ClientDecorator extends HKT.TypeLambda = NoopDecorator,
     ClientMethods extends Record<string, any> = {},
 > = {
     _modalDecorator: ModalDecorator;
@@ -32,9 +32,9 @@ export type Plugin<
 export type AnyPlugin = Plugin<any, any, any, any>;
 
 export function createPlugin<
-    ModalDecorator extends Type = NoopDecorator,
+    ModalDecorator extends HKT.TypeLambda = NoopDecorator,
     ModalMethods extends Record<string, any> = {},
-    ClientDecorator extends Type = NoopDecorator,
+    ClientDecorator extends HKT.TypeLambda = NoopDecorator,
     ClientMethods extends Record<string, any> = {},
 >(config: {
     modal?: PluginModalMethods<ModalMethods>;
@@ -48,20 +48,29 @@ export function createPlugin<
     };
 }
 
-export interface MergeDecoratorsType<Decorators extends Type[]>
-    extends Type<1> {
-    type: MergeDecoratorResults<this[0], Decorators>;
+export interface MergeDecoratorsType<
+    Decorators extends readonly HKT.TypeLambda[],
+> extends HKT.TypeLambda {
+    readonly type: MergeDecoratorResults<this["Target"], Decorators>;
 }
 
-export type MergeDecoratorResults<
+type MergeDecoratorResults<
     TValue,
-    Decorators extends Type[],
+    Decorators extends readonly HKT.TypeLambda[],
 > = Decorators extends [
-    infer First extends Type,
-    ...infer Rest extends Type[],
+    infer First extends HKT.TypeLambda,
+    ...infer Rest extends readonly HKT.TypeLambda[],
 ]
-    ? apply<First, [TValue]> & MergeDecoratorResults<TValue, Rest>
+    ? ApplyDecorator<First, TValue> & MergeDecoratorResults<TValue, Rest>
     : {};
+
+type ApplyDecorator<F extends HKT.TypeLambda, Target> = HKT.Kind<
+    F,
+    never,
+    never,
+    never,
+    Target
+>;
 
 type ExtractModalDecorators<T extends readonly AnyPlugin[]> =
     T extends readonly [infer First extends AnyPlugin, ...infer Rest]

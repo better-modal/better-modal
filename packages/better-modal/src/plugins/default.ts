@@ -1,4 +1,3 @@
-import type { Type } from "free-types";
 import {
     type AnyComponent,
     type AnyModalDefinition,
@@ -8,6 +7,7 @@ import {
     type MissingProps,
     toModalDefinition,
 } from "../def";
+import type * as HKT from "../hkt";
 import { isLazyComponent } from "../lazy";
 import { createPlugin } from "../plugin";
 import type { ModalStore } from "../store";
@@ -38,9 +38,10 @@ type ModalMethods<Def extends AnyModalDefinition = AnyModalDefinition> =
         ) => Context;
     };
 
-export interface ModalDecorator extends Type<1> {
-    type: this[0] extends AnyModalDefinition ? ModalMethods<this[0]> : unknown;
+export interface ModalDecorator extends HKT.TypeLambda {
+    type: this["Target"] extends AnyModalDefinition ? ModalMethods<this["Target"]> : unknown;
 }
+
 
 type ClientMethods<Def extends AnyRegistry = AnyRegistry> = {
     open: <
@@ -56,8 +57,10 @@ type ClientMethods<Def extends AnyRegistry = AnyRegistry> = {
     ) => void;
 };
 
-export interface ClientDecorator extends Type<1> {
-    type: this[0] extends AnyRegistry ? ClientMethods<this[0]> : unknown;
+export interface ClientDecorator extends HKT.TypeLambda {
+    readonly type: this["Target"] extends AnyRegistry
+    ? ClientMethods<this["Target"]>
+    : unknown;
 }
 
 export const defaultPlugin = createPlugin<
