@@ -1,0 +1,5 @@
+---
+"better-modal": patch
+---
+
+types

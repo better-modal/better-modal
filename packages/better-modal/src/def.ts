@@ -1,4 +1,3 @@
-import type { PartialDeep } from "type-fest";
 import type { AnyLazyComponent, ExtractPropsFromLazyComponent } from "./lazy";
 import type { AnyPlugin } from "./plugin";
 import type { Prettify } from "./types";
@@ -9,8 +8,8 @@ type AnyValues = {
 };
 
 export type DefaultValuesShape<Values extends AnyValues> = {
-    variant?: PartialDeep<Values["variant"]>;
-    component?: PartialDeep<Values["component"]>;
+    variant?: Partial<Values["variant"]>;
+    component?: Partial<Values["component"]>;
 };
 
 export type BaseModalDefinition<
