@@ -1,6 +1,6 @@
 import type { AnyUrlSyncableModal } from "./create-url-sync-plugin";
 
-export interface Adapter<O = {}> {
+export interface Adapter<O> {
     init: (def: AnyUrlSyncableModal[]) => {
         read: (key: string) => any;
         write: (key: string, value: any) => void;
@@ -14,9 +14,9 @@ export interface Adapter<O = {}> {
     };
 }
 
-export type AnyAdapter = Adapter<{}>;
+export type AnyAdapter = Adapter<{}>
 
-export function createAdapter<O = {}>(
+export function createAdapter<O extends {} = {}>(
     init: Adapter<O>["init"],
 ): Adapter<O> {
     return {

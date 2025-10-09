@@ -20,26 +20,27 @@ function toUrlSyncableModal<Def extends AnyModalDefinition, Options>(
     };
 }
 
-type Methods<
-    Def extends AnyModalDefinition = AnyModalDefinition,
-    Options = {},
-> = {
-    sync: (options: Options) => UrlSyncableModal<Def, Options>;
-};
+type Methods<Options = undefined, Def extends AnyModalDefinition = AnyModalDefinition> = Options extends Record<string, never> ?
+    {
+        sync: (options?: Options) => UrlSyncableModal<Def, Options>
+    } :
+    {
+        sync: (options: Options) => UrlSyncableModal<Def, Options>
+    }
 
-export interface UrlSyncPluginDecorator<Options> extends HKT.TypeLambda {
+
+export interface UrlSyncPluginDecorator<Options = undefined> extends HKT.TypeLambda {
     readonly type: this["Target"] extends AnyModalDefinition
-    ? Methods<this["Target"], Options>
+    ? Methods<Options, this["Target"]>
     : unknown;
 }
 
 export function createUrlSyncPlugin<Adapter extends AnyAdapter>(
     _adapter: Adapter,
 ) {
-    const plugin = createPlugin<
-        UrlSyncPluginDecorator<Adapter["_def"]["$types"]["options"]>,
-        Methods
-    >({
+    type Options = Adapter["_def"]["$types"]["options"];
+
+    return createPlugin<UrlSyncPluginDecorator<Options>, Methods>({
         modal: {
             sync: (ctx) => {
                 return (options) => {
@@ -48,6 +49,4 @@ export function createUrlSyncPlugin<Adapter extends AnyAdapter>(
             },
         },
     });
-
-    return plugin;
 }
