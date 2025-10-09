@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.6
+
+### Patch Changes
+
+- c611f45: optional adapter options
+
 ## 0.3.5
 
 ### Patch Changes
