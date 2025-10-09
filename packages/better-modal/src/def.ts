@@ -114,15 +114,11 @@ export function createModalDefinition<
         withDefaults: <T extends DefaultValuesShape<Values>>(newDefaults: T) => {
             const mergedDefaults = {
                 variant: {
-                    // @ts-expect-error
                     ...(defaultValues.variant ?? {}),
-                    // @ts-expect-error
                     ...(newDefaults.variant ?? {}),
                 },
                 component: {
-                    // @ts-expect-error
                     ...(defaultValues.component ?? {}),
-                    // @ts-expect-error
                     ...(newDefaults.component ?? {}),
                 },
             } as Prettify<DefaultValues & T>;
