@@ -1,5 +1,11 @@
 # better-modal
 
+## 0.3.5
+
+### Patch Changes
+
+- 94ef8ce: types
+
 ## 0.3.4
 
 ### Patch Changes
