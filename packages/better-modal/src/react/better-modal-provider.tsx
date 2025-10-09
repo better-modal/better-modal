@@ -3,7 +3,6 @@
 import * as React from "react";
 import { createBetterModalClient } from "../client";
 import type { AnyRegistry } from "../def";
-import type { AnyPlugin } from "../plugin";
 import { type ModalState, ModalStore } from "../store";
 import { ModalProvider } from "./modal-context";
 import { ModalStoreProvider, useModalStore } from "./modal-store-context";
@@ -28,11 +27,11 @@ export function Provider() {
 
   return (
     <React.Fragment>
-      {modalState.modals.map((modal) => {
+      {modalState.modals.map((modal, idx) => {
         const Variant = client.getVariant(modal.variant);
 
         return (
-          <ModalProvider key={modal.id} modal={modal}>
+          <ModalProvider key={`${modal.id}-${idx}`} modal={modal}>
             <Variant {...modal.values.variant}>
               <modal.ui {...modal.values.component} />
             </Variant>
