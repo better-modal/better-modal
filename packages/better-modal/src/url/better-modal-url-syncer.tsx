@@ -3,14 +3,16 @@
 import { useEffect, useMemo } from "react";
 import { useModalStore } from "../react";
 import { omit } from "../utils";
-import type { Adapter } from "./adapter";
+import type { AnyAdapter } from "./adapter";
 import type { AnyUrlSyncableModal } from "./create-url-sync-plugin";
 
 type Props = {
   modals: AnyUrlSyncableModal[];
 };
 
-export function createBetterModalUrlSyncer(_adapter: Adapter) {
+export function createBetterModalUrlSyncer<Adapter extends AnyAdapter>(
+  _adapter: Adapter,
+) {
   return function URLSyncer(options: Props) {
     const store = useModalStore();
     const adapter = _adapter.init(options.modals);
